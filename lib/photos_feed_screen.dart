@@ -26,9 +26,12 @@ class _PhotosFeedScreenState extends State<PhotosFeedScreen> {
   }
 
   void _scrollListener() {
-    setState(() {
-      _showScrollingToTopButton = _scrollController.offset > 100;
-    });
+    bool showScrollingToTopButton = _scrollController.offset > 100;
+    if (showScrollingToTopButton != _showScrollingToTopButton) {
+      setState(() {
+        _showScrollingToTopButton = showScrollingToTopButton;
+      });
+    }
   }
 
   @override
