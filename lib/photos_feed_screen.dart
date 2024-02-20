@@ -16,29 +16,11 @@ class PhotosFeedScreen extends StatefulWidget {
 class _PhotosFeedScreenState extends State<PhotosFeedScreen> {
   late Future<List<Photo>> _photos;
   final ScrollController _scrollController = ScrollController();
-  bool _showScrollingToTopButton = false;
 
   @override
   void initState() {
     super.initState();
     _photos = fetchPhotos();
-    _scrollController.addListener(_scrollListener);
-  }
-
-  void _scrollListener() {
-    bool showScrollingToTopButton = _scrollController.offset > 100;
-    if (showScrollingToTopButton != _showScrollingToTopButton) {
-      setState(() {
-        _showScrollingToTopButton = showScrollingToTopButton;
-      });
-    }
-  }
-
-  @override
-  void dispose() {
-    _scrollController
-        .removeListener(_scrollListener); // Important to remove listener
-    super.dispose();
   }
 
   @override
@@ -69,19 +51,60 @@ class _PhotosFeedScreenState extends State<PhotosFeedScreen> {
           }
         },
       ),
-      floatingActionButton: _showScrollingToTopButton
-          ? FloatingActionButton(
-              onPressed: () {
-                _scrollController.animateTo(
-                  0.0,
-                  curve: Curves.easeIn,
-                  duration: const Duration(milliseconds: 300),
-                );
-              },
-              child: const Icon(Icons.arrow_upward),
-            )
-          : null,
+      floatingActionButton:
+          ScrollToTopButton(scrollController: _scrollController),
     );
+  }
+}
+
+class ScrollToTopButton extends StatefulWidget {
+  final ScrollController scrollController;
+
+  const ScrollToTopButton({super.key, required this.scrollController});
+
+  @override
+  State<ScrollToTopButton> createState() => _ScrollToTopButtonState();
+}
+
+class _ScrollToTopButtonState extends State<ScrollToTopButton> {
+  bool _showScrollingToTopButton = false;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.scrollController.addListener(_scrollListener);
+  }
+
+  void _scrollListener() {
+    bool showScrollingToTopButton = widget.scrollController.offset > 100;
+    if (showScrollingToTopButton != _showScrollingToTopButton) {
+      setState(() {
+        _showScrollingToTopButton = showScrollingToTopButton;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    widget.scrollController
+        .removeListener(_scrollListener); // Important to remove listener
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _showScrollingToTopButton
+        ? FloatingActionButton(
+            onPressed: () {
+              widget.scrollController.animateTo(
+                0.0,
+                curve: Curves.easeIn,
+                duration: const Duration(milliseconds: 300),
+              );
+            },
+            child: const Icon(Icons.arrow_upward),
+          )
+        : const SizedBox.shrink();
   }
 }
 
