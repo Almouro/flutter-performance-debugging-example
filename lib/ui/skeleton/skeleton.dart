@@ -38,24 +38,13 @@ class _SkeletonPlaceholderState extends State<SkeletonPlaceholder> {
           physics: _isLoading ? const NeverScrollableScrollPhysics() : null,
           children: const [
             CustomShaderMask(
-              child: ProfileHeaderPlaceholder(),
-            ),
-            CustomShaderMask(
-              child: PhotoPlaceholder(),
-            ),
-            SizedBox(height: 8),
-            CustomShaderMask(
-              child: ProfileHeaderPlaceholder(),
-            ),
-            CustomShaderMask(
-              child: PhotoPlaceholder(),
-            ),
-            SizedBox(height: 8),
-            CustomShaderMask(
-              child: ProfileHeaderPlaceholder(),
-            ),
-            CustomShaderMask(
-              child: PhotoPlaceholder(),
+              child: Column(
+                children: [
+                  CardPlaceholder(),
+                  CardPlaceholder(),
+                  CardPlaceholder(),
+                ],
+              ),
             ),
           ],
         ),

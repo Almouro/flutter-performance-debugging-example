@@ -1,5 +1,22 @@
 import 'package:flutter/material.dart';
 
+class CardPlaceholder extends StatelessWidget {
+  const CardPlaceholder({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.only(bottom: 8.0),
+      child: Column(
+        children: [
+          PhotoPlaceholder(),
+          ProfileHeaderPlaceholder(),
+        ],
+      ),
+    );
+  }
+}
+
 class PhotoPlaceholder extends StatelessWidget {
   const PhotoPlaceholder({super.key});
   @override
