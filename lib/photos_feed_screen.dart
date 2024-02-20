@@ -91,12 +91,17 @@ class PhotoList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return ListView.separated(
       controller: scrollController,
-      padding: const EdgeInsets.all(0),
-      child: Column(
-        children: photos.map((photo) => PhotoListItem(photo: photo)).toList(),
+      itemCount: photos.length,
+      separatorBuilder: (context, index) => const SizedBox(
+        height: 16,
       ),
+      itemBuilder: (context, index) {
+        return PhotoListItem(
+          photo: photos[index],
+        );
+      },
     );
   }
 }
