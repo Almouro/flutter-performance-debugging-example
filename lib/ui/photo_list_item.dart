@@ -11,6 +11,9 @@ class PhotoListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final aspectRatio = photo.width / photo.height;
+    final int desiredImageWidth = (MediaQuery.sizeOf(context).width *
+            MediaQuery.devicePixelRatioOf(context))
+        .toInt();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -18,7 +21,7 @@ class PhotoListItem extends StatelessWidget {
         ProfileHeader(user: photo.user),
         AspectRatio(
           aspectRatio: aspectRatio,
-          child: Image.network(photo.urls.regular),
+          child: Image.network("${photo.urls.regular}&w=$desiredImageWidth"),
         ),
         ButtonsFooter(photo: photo)
       ],
