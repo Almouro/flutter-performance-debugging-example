@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' as services;
 
 import 'package:flutter_guinea_perf/model/photo.dart';
@@ -28,7 +29,7 @@ List<Photo> parseResponse(String json) {
 
 Future<List<Photo>> fetchPhotos() async {
   final response = await mockHttpCall();
-  final photos = parseResponse(response);
+  final photos = await compute(parseResponse, response);
 
   return filterPhotos(photos);
 }
